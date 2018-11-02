@@ -1,0 +1,24 @@
+Caleb Boraby
+11-2-2018
+Lab09
+
+1. How many API endpoints does this application support and where are they implemented? 
+	- There are 3 endpoints in that application in the PlayerResources.java file where the CRUD methods are implemented
+2. PlayerResource.java 
+	a. What is the Java-based technology used to access data from a database?
+		- JDBC (Java Database Connectivity)
+	b. Compare and contrast the following: 
+		i. SQL query statements vs. JDBC statement objects
+			- JDBC statement objects are like wrappers to SQL Query Statements which take in their arguments and then format them into 
+				SQL queries.
+	 	ii. SQL relations vs. JDBC result sets vs. List<Player>
+			- JDBC result sets are formatted like the results of a SQL query, and are a subset of the SQL relation since only certain rows are
+				selected with the JDBC result set. Each element in the List<Player> is a row as a result JDBC result set.
+	c. Under what circumstances would the function getValueStringOrNull() be used?
+		- You use it to see if a player has a name or not. If there is no name, then the name field is NULL.
+3. Player.java 
+	a. What purpose does this Player DAO serve?
+		- You use it to implement and alter a player object in the Database
+	b. How does it compare with the Player table?
+		- You are wrapping up the class with the Player table, with the class having all the variable fields that are in the table. This class is
+			used to alter the Player table, read from it, and insert into it.
