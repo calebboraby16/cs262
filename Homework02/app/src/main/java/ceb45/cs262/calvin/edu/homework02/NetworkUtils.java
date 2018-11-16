@@ -2,7 +2,6 @@ package ceb45.cs262.calvin.edu.homework02;
 
 import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,14 +10,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class NetworkUtils {
+@SuppressWarnings({"JavaDoc", "ReturnInsideFinallyBlock"})
+class NetworkUtils {
 
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
     private static final String PLAYER_LIST_URL = "https://calvincs262-monopoly.appspot.com/monopoly/v1/players";
     private static final String PLAYER_ID_URL = "https://calvincs262-monopoly.appspot.com/monopoly/v1/player/";
 
-    static String getPlayerListInfo(String queryString) {
+    /**
+     * @return
+     */
+    @SuppressWarnings("finally")
+    static String getPlayerListInfo() {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String playerListJSONString = null;
@@ -33,7 +37,7 @@ public class NetworkUtils {
             urlConnection.connect();
 
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             if (inputStream == null) {
                 // Nothing to do.
                 return null;
@@ -44,7 +48,7 @@ public class NetworkUtils {
    /* Since it's JSON, adding a newline isn't necessary (it won't affect
       parsing) but it does make debugging a *lot* easier if you print out the
       completed buffer for debugging. */
-                buffer.append(line + "\n");
+                buffer.append(line).append("\n");
             }
             if (buffer.length() == 0) {
                 // Stream was empty.  No point in parsing.
@@ -65,17 +69,21 @@ public class NetworkUtils {
                     e.printStackTrace();
                 }
             }
-            if(playerListJSONString != null) {
+            if (playerListJSONString != null) {
                 Log.e(LOG_TAG, playerListJSONString);
                 return playerListJSONString;
-            }
-            else {
+            } else {
 
                 return "";
             }
         }
     }
 
+    /**
+     * @param queryString
+     * @return
+     */
+    @SuppressWarnings("finally")
     static String getPlayerIDInfo(String queryString) {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -122,8 +130,7 @@ public class NetworkUtils {
             if (playerIDJSONString != null) {
                 Log.e(LOG_TAG, playerIDJSONString);
                 return playerIDJSONString;
-            }
-            else {
+            } else {
                 return "";
             }
         }

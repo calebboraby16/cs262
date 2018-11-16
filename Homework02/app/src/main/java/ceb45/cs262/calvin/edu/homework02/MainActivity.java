@@ -20,18 +20,25 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.Objects;
 
+@SuppressWarnings("JavaDoc")
 public class MainActivity extends AppCompatActivity
-                implements LoaderManager.LoaderCallbacks<String> {
+        implements LoaderManager.LoaderCallbacks<String> {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private EditText editTextQueryString;
     private TextView textViewSearchResults;
     private String queryString;
 
+    /**
+     * @param savedInstanceState
+     */
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,18 +51,26 @@ public class MainActivity extends AppCompatActivity
         editTextQueryString = findViewById(R.id.search_string);
         textViewSearchResults = findViewById(R.id.search_results);
 
-        if(getSupportLoaderManager().getLoader(0)!=null) {
+        if (getSupportLoaderManager().getLoader(0) != null) {
             getSupportLoaderManager().initLoader(0, null, this);
         }
         queryString = "";
     }
 
+    /**
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
+    /**
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -68,6 +83,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * @param view
+     */
+    @SuppressWarnings("deprecation")
     public void fetch(View view) {
         queryString = editTextQueryString.getText().toString();
 
@@ -82,10 +101,11 @@ public class MainActivity extends AppCompatActivity
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = null;
 
+        //noinspection ConstantConditions,ConstantConditions
         if (networkInfo != null && networkInfo.isConnected()) {
             Bundle queryBundle = new Bundle();
             queryBundle.putString("queryString", queryString);
-            getSupportLoaderManager().restartLoader(0, queryBundle,this);
+            getSupportLoaderManager().restartLoader(0, queryBundle, this);
 
             textViewSearchResults.setText("");
             textViewSearchResults.setText(R.string.loading_in_process);
@@ -95,23 +115,32 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * @param i
+     * @param bundle
+     * @return
+     */
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int i, @Nullable Bundle bundle) {
         return new PlayerLoader(this, Objects.requireNonNull(bundle).getString("queryString"));
     }
 
+    /**
+     * @param loader
+     * @param s
+     */
     @SuppressLint("SetTextI18n")
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String s) {
         // If string s is empty, then connection failed.
-        if (s.contains("Connection failed!")){
+        if (s.contains("Connection failed!")) {
             textViewSearchResults.setText("");
             textViewSearchResults.setText(R.string.connection_failed);
             Toast.makeText(this, R.string.connection_failed, Toast.LENGTH_SHORT).show();
             return;
         }
-        if(s.length() == 0){
+        if (s.length() == 0) {
             textViewSearchResults.setText("");
             textViewSearchResults.setText(R.string.no_results_found);
             Toast.makeText(this, R.string.no_results_found, Toast.LENGTH_SHORT).show();
@@ -124,7 +153,7 @@ public class MainActivity extends AppCompatActivity
             JSONArray itemsArray;
 
             // Condition to handle getting the player list
-            if(queryString.length() == 0){
+            if (queryString.length() == 0) {
                 itemsArray = jsonObject.getJSONArray("items");
 
                 Log.e(LOG_TAG, "Length of itemsArray: " + itemsArray.length());
@@ -145,17 +174,16 @@ public class MainActivity extends AppCompatActivity
                     }
 
                     //If information field requested exists, update the TextViews and return
-                    if (id != null || email != null || name != null)  {
+                    if (id != null || email != null || name != null) {
                         textViewSearchResults.append("\n\nid: " + id + "\n" + "email: " + email + "\n" + "name: " + name + "\n");
-                    }
-                    else{
+                    } else {
                         textViewSearchResults.append("\n\nFailure to retrieve any information for this particular player!\n");
                     }
                 }
                 return;
             }
             // Condition to get a specific player in list
-            else{
+            else {
                 String id = "no id found";
                 String email = "no email found";
                 String name = "no name found";
@@ -179,19 +207,21 @@ public class MainActivity extends AppCompatActivity
             textViewSearchResults.setText(R.string.display_failure);
             Toast.makeText(this, R.string.display_failure, Toast.LENGTH_SHORT).show();
 
-        } catch (Exception ex){
+        } catch (Exception ex) {
             textViewSearchResults.setText("");
             textViewSearchResults.setText(R.string.json_failure);
             Toast.makeText(this, R.string.json_failure, Toast.LENGTH_SHORT).show();
             ex.printStackTrace();
 
-        } finally{
-            Log.e(LOG_TAG,"Finished query process!");
+        } finally {
+            Log.e(LOG_TAG, "Finished query process!");
         }
     }
 
+    /**
+     * @param loader
+     */
     @Override
     public void onLoaderReset(@NonNull Loader<String> loader) {
-
     }
 }

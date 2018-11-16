@@ -1,6 +1,6 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Homework2</string>
-    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_settings" tools:ignore="UnusedResources">Settings</string>
 
     <!-- Strings related to Settings -->
 
@@ -52,19 +52,19 @@
         <item>-1</item>
     </string-array>
 
-    <string-array name="list_preference_entries">
+    <string-array name="list_preference_entries" tools:ignore="UnusedResources">
         <item>Entry 1</item>
         <item>Entry 2</item>
         <item>Entry 3</item>
     </string-array>
 
-    <string-array name="list_preference_entry_values">
+    <string-array name="list_preference_entry_values" tools:ignore="UnusedResources">
         <item>1</item>
         <item>2</item>
         <item>3</item>
     </string-array>
 
-    <string-array name="multi_select_list_preference_default_value" />
+    <string-array name="multi_select_list_preference_default_value" tools:ignore="UnusedResources" />
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
@@ -84,7 +84,7 @@
     <!-- Strings for querying via URI-->
     <string name="no_results_found">No Results Found</string>
     <string name="loading_in_process">Loading in process</string>
-    <string name="no_search_term">Please enter a search term</string>
+    <string name="no_search_term" tools:ignore="UnusedResources">Please enter a search term</string>
     <string name="no_connection">Please check your network connection and try again.</string>
     <string name="search_string_hint">Blank = All players; Positive integer = Player with that ID</string>
     <string name="search_results_text">Results</string>
